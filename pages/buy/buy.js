@@ -62,7 +62,7 @@ Page({
 		// 获取右侧菜品列表数据
 		var resFood = []
 		try{
-			let ret = await GG.http_GetPOst("/productList",'POST');
+			let ret = await GG.http_GetPOst("/queryProductBycategory",'POST');
 			let dataList = ret.data.data;
 			this.setData({
 				menu_list: dataList
