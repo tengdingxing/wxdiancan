@@ -33,7 +33,7 @@
 				</scroll-view>
 				<!--右侧栏  -->
 				<scroll-view scroll-y class="right-cont">
-					<block wx:for="{{YouCeLan_list}}" wx:key="id">
+					<block wx:for="{{YouCeLan_list[categoryId]}}" wx:key="id">
 						<view class="weui-panel__bd mb_bottom">
 							<view class=" weui-media-box_appmsg bc_white mT" hover-class="none">
 								<view class="weui-media-box__hd  img_box ">

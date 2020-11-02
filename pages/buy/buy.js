@@ -68,13 +68,7 @@ Page({
 				menu_list: dataList
 			})
 			if(dataList[0].categoryId){
-				GG.http_GetPOst("/queryProductBycategory",'POST',{
-					categoryType:dataList[0].categoryId
-				}).then((ret)=>{
-					this.setData({
-						YouCeLan_list:ret.data.data
-					})
-				})
+				this.HuoQuCaiPin(0,dataList[0].categoryId)
 			}
 		}catch(e){
 			this.setData({
@@ -138,13 +132,19 @@ Page({
 		var categoryId = e.target.dataset.item.categoryId; // 获取点击项的id
 		var index= e.target.dataset.index;
 		
+		this.HuoQuCaiPin(index,categoryId)
+	},
+	
+	// 获取菜品
+	HuoQuCaiPin:function(index,categoryId){
 		GG.http_GetPOst("/queryProductBycategory",'POST',{
 			categoryType:categoryId
 		}).then((ret)=>{
 			this.setData({
 				// 右侧菜单当前显示第curNav项
 				curNav: index,
-				YouCeLan_list:ret.data.data
+				categoryId:categoryId,
+				["YouCeLan_list."+categoryId]:ret.data.data
 			})
 		})
 	},
