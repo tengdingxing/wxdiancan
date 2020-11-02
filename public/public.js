@@ -95,7 +95,7 @@ const http_GetPOst = (url, method = 'GET', param = {}, header = {}, showLoading 
 	// 默认配置
 	const config = {
 		// 请求的本域名
-		baseUrl: 'http://localhost:8080/sell',
+		baseUrl: 'http://39.98.124.206:80/diancan',
 		// 设置为json，返回后会对数据进行一次JSON.parse()
 		dataType: 'json',
 		// 是否显示请求中的loading
@@ -137,14 +137,10 @@ const http_GetPOst = (url, method = 'GET', param = {}, header = {}, showLoading 
 				console.log("存储本地cookie错误:" + e);
 			}
 			
-			// 测试使用--------------------------------开始
-			return res;
-			// 测试使用--------------------------------结束
 
 			// 判断是否正常请求到
-			if (res.data.errcode == 0) return res;
-
-			switch (parseInt(res.data.errcode)) {
+			if (res.data.status == 200) return res;
+			switch (parseInt(res.data.status)) {
 				case 999:
 					break;
 				default:
