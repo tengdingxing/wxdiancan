@@ -62,11 +62,20 @@ Page({
 		// 获取右侧菜品列表数据
 		var resFood = []
 		try{
-			let ret = await GG.http_GetPOst("/productList",'POST');
+			let ret = await GG.http_GetPOst("/categoryList",'POST');
 			let dataList = ret.data.data;
 			this.setData({
 				menu_list: dataList
 			})
+			if(dataList[0].categoryId){
+				GG.http_GetPOst("/queryProductBycategory",'POST',{
+					categoryType:dataList[0].categoryId
+				}).then((ret)=>{
+					this.setData({
+						YouCeLan_list:ret.data.data
+					})
+				})
+			}
 		}catch(e){
 			this.setData({
 				list: []
@@ -126,10 +135,17 @@ Page({
 
 	// 点击切换右侧数据
 	changeRightMenu: function(e) {
-		var classify = e.target.dataset.index; // 获取点击项的id
-		this.setData({
-			// 右侧菜单当前显示第curNav项
-			curNav: classify,
+		var categoryId = e.target.dataset.item.categoryId; // 获取点击项的id
+		var index= e.target.dataset.index;
+		
+		GG.http_GetPOst("/queryProductBycategory",'POST',{
+			categoryType:categoryId
+		}).then((ret)=>{
+			this.setData({
+				// 右侧菜单当前显示第curNav项
+				curNav: index,
+				YouCeLan_list:ret.data.data
+			})
 		})
 	},
 

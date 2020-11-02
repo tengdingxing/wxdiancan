@@ -28,27 +28,26 @@
 				<!--左侧栏  -->
 				<scroll-view scroll-y class="left-cont">
 					<block class="caixi" wx:key="id" wx:for="{{menu_list}}">
-						<view class="classify  {{curNav == index ? 'active' : ''}}" bindtap="changeRightMenu" data-index="{{index}}">{{item.productName}}</view>
+						<view class="classify  {{curNav == index ? 'active' : ''}}" bindtap="changeRightMenu" data-item="{{item}}" data-index="{{index}}">{{item.categoryName}}</view>
 					</block>
 				</scroll-view>
 				<!--右侧栏  -->
 				<scroll-view scroll-y class="right-cont">
-					<block wx:for="{{menu_list[curNav]}}" wx:key="id">
+					<block wx:for="{{YouCeLan_list}}" wx:key="id">
 						<view class="weui-panel__bd mb_bottom">
 							<view class=" weui-media-box_appmsg bc_white mT" hover-class="none">
 								<view class="weui-media-box__hd  img_box ">
 									<!--图片链接  -->
 
 									<!-- <image class="weui-media-box__thumb"  src=""/>     -->
-									<image class="weui-media-box__thumb img_box" src="http://localhost/{{item.icon}}" />
+									<image class="weui-media-box__thumb img_box" src="http://localhost/{{item.productIcon}}" />
 								</view>
 								<view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-									<view class="cai_title" data-index="{{index}}">{{item.name}}</view>
-									<view class="cai_desc" wx:if="{{item.desc == ''}}">暂无介绍</view>
-									<view class="cai_desc" wx:else>{{item.desc}}</view>
-									<view class="cai_desc"> 库存：{{item.stock}} </view>
+									<view class="cai_title" data-index="{{index}}">{{item.productName}}</view>
+									<view class="cai_desc">{{item.productDescription?item.productDescription:'暂无介绍'}}</view>
+									<view class="cai_desc"> 库存：{{item.productStock}} </view>
 									<view class="price-stepper">
-										<view class="cai_price" data-index="{{index}}">{{item.price}}</view>
+										<view class="cai_price" data-index="{{index}}">{{item.productPrice}}</view>
 										<view class="stepper">
 											<!-- 减号 -->
 											<view class="iconfont icon-minus2 fontP" hidden="{{item.quantity<=0}}" bindtap="minusCount" data-id="{{item.id}}"
