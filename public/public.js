@@ -156,7 +156,11 @@ const http_GetPOst = (url, method = 'GET', param = {}, header = {}, showLoading 
 				case 999:
 					break;
 				default:
-					tk_ts_showToast(res.data.msg ? res.data.msg : '操作出错!', 'none', 1000)
+					try{
+						tk_ts_showToast(res.data.msg ? res.data.msg : '操作出错!', 'none', 1000)
+					}catch(e){
+						tk_ts_showToast('操作出错!', 'none', 1000)
+					}
 					return false;
 			}
 		}
