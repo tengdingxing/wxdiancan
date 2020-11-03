@@ -50,12 +50,12 @@
 										<view class="cai_price" data-index="{{index}}">{{item.productPrice}}</view>
 										<view class="stepper">
 											<!-- 减号 -->
-											<view class="iconfont icon-minus2 fontP" hidden="{{item.quantity<=0}}" bindtap="minusCount" data-id="{{item.id}}"
+											<view class="iconfont icon-minus2 fontP" hidden="{{item.quantity<=0}}" bindtap="minusCount" data-item="{{item}}"
 											 data-index="{{index}}"></view>
 											<!-- 数量 -->
-											<view class="value" hidden="{{item.quantity<=0}}" data-id="{{item.id}}" data-num="{{item.quantity}}">{{item.quantity}}</view>
+											<view class="value" data-id="{{item.id}}" data-num="{{item.quantity}}">{{item.quantity}}</view>
 											<!-- 加号 -->
-											<view class="iconfont icon-plus1 fontP" data-id="{{item.id}}" data-index="{{index}}" bindtap="addCount"></view>
+											<view class="iconfont icon-plus1 fontP" data-index="{{index}}" data-item="{{item}}" bindtap="addCount"></view>
 										</view>
 									</view>
 								</view>

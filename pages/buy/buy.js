@@ -140,6 +140,9 @@ Page({
 		GG.http_GetPOst("/queryProductBycategory",'POST',{
 			categoryType:categoryId
 		}).then((ret)=>{
+			ret.data.data.map((mapi)=>{
+				mapi.quantity=0
+			})
 			this.setData({
 				// 右侧菜单当前显示第curNav项
 				curNav: index,
@@ -167,8 +170,10 @@ Page({
 		// 	})
 		// 	return;
 		// }
-
-
+		
+		this.SetGouWuCheShuLiang(true,e)
+		return
+		
 
 
 		var id = e.currentTarget.dataset.id;
@@ -220,8 +225,34 @@ Page({
 			}
 		}
 	},
+	
+	SetGouWuCheShuLiang:function(bool,e){
+		// 改变购物车数量
+		
+		let YouCeLan_list=GG.deepClone(this.data.YouCeLan_list)//深度克隆防止下面改变data里面的值
+		for (let key in YouCeLan_list) {
+			YouCeLan_list[key].map((mapi)=>{
+				if (mapi.productId==e.currentTarget.dataset.item.productId) {
+					if (bool) {
+						mapi.quantity++
+					} else{
+						mapi.quantity--
+					}
+				}
+			})
+		}
+		// 因为上面的克隆，map改变的是 克隆出来的let YouCeLan_list,不会直接改变data的YouCeLan_list,所以需要重新渲染到页面
+		this.setData({
+			YouCeLan_list:YouCeLan_list
+		})
+	},
+	
+	
 	// 购物车减少数量
 	minusCount: function(e) {
+		this.SetGouWuCheShuLiang(false,e)
+		return
+		
 		var id = e.currentTarget.dataset.id;
 		var arr = wx.getStorageSync('cart') || [];
 		for (var i in this.data.foodList) {
