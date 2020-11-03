@@ -137,6 +137,23 @@ Page({
 
 	// 获取菜品
 	HuoQuCaiPin: function(index, categoryId) {
+		// 判断是否已经存在
+		let on=false
+		for (let key in this.data.YouCeLan_list) {
+			if (key==categoryId) {
+				on=true
+				break
+			}
+		}
+		if (on) {
+			this.setData({
+				// 右侧菜单当前显示第curNav项
+				curNav: index,
+				categoryId: categoryId
+			})
+			return
+		}
+		
 		GG.http_GetPOst("/queryProductBycategory", 'POST', {
 			categoryType: categoryId
 		}).then((ret) => {
