@@ -230,19 +230,15 @@ Page({
 		// 改变购物车数量
 		
 		let YouCeLan_list = GG.deepClone(this.data.YouCeLan_list) //深度克隆防止下面改变data里面的值
-		if (bool==3) {
-			// 清空处理
-			for (let key in YouCeLan_list) {
-				YouCeLan_list[key].map((mapi) => {
-					mapi.quantity=0
-				}
-			}
-			return
-		}
-		// 增减处理
 		for (let key in YouCeLan_list) {
 			YouCeLan_list[key].map((mapi) => {
+				if ( bool==3) {
+					// 清空处理
+					mapi.quantity=0
+					return
+				}
 				if (mapi.productId == e.currentTarget.dataset.item.productId) {
+					// 增减处理
 					switch (bool) {
 						case 0:
 							mapi.quantity++
