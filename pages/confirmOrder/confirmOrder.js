@@ -160,14 +160,37 @@ Page({
 		console.log("用餐人数：" + peoples)
 		console.log("备注：" + remarks)
 		console.log("桌号" + tableNum)
-
+		
+		// 统计订单
+		let YouCeLan_list = GG.deepClone(this.data.YouCeLan_list) //深度克隆防止下面改变data里面的值
+		let items=[]
+		for (let key in YouCeLan_list){
+			YouCeLan_list[key].map((mapi) => {
+				if(mapi.quantity>0){
+					items.push(mapi)
+				}
+			})
+		}
+		
+		
+		if(app.globalData.openid){
+			var openid=app.globalData.openid
+		}else{
+			var openid=''
+		}
+		if(app.globalData.nickName){
+			var nickName=app.globalData.userInfo.nickName
+		}else{
+			var nickName=''
+		}
+		
 
 		GG.http_GetPOst("/buyer/order/create", "POST", {
-			openid: app.globalData.openid,
-			name: app.globalData.userInfo.nickName,
+			openid: openid,
+			name: nickName,
 			phone: "15805849785",
 			address: tableNum,
-			items: goods_josn
+			items: items
 		}, {
 			"Content-Type": "application/x-www-form-urlencoded"
 		}).then((ret) => {
