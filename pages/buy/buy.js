@@ -366,12 +366,8 @@ Page({
 	cascadeToggle: function() {
 		var that = this;
 		var arr = this.data.cartList
-		if (arr.length > 0) {
-			if (that.data.maskVisual == "hidden") {
-				that.cascadePopup()
-			} else {
-				that.cascadeDismiss()
-			}
+		if (that.data.maskVisual == "hidden") {
+			that.cascadePopup()
 		} else {
 			that.cascadeDismiss()
 		}

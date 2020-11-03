@@ -113,21 +113,23 @@
 			<span class="shopcart_deleteAll" bindtap="cleanList">清空购物车</span>
 		</view>
 		<scroll-view scroll-y style="height:250px;margin-top:35px">
-			<block wx:for="{{cartList}}" wx:key="id">
-				<view class="cart_cells" wx:if="{{item.quantity > 0}}">
-					<view class="cells_name" data-index="{{index}}">{{item.name}}</view>
-					<view class="cells_price" data-index="{{index}}">{{item.price}}</view>
-					<view class="price-box">
-						<!-- 减号 -->
-						<view class="iconfont icon-minus2 fontP" hidden="{{item.quantity<=0}}" data-index="{{index}}" data-id="{{item.id}}"
-						 bindtap="minusCount"></view>
-						<!-- 数量 -->
-						<view class="value" style="color:#ff9600;margin-top:8rpx" hidden="{{item.quantity<=0}}" data-id="{{item.id}}">{{item.quantity}}</view>
-						<!-- 加号 -->
-						<view class="iconfont icon-plus1  fontP" bindtap="addCount" data-id="{{item.id}}" data-index="{{index}}"></view>
+			<block wx:for="{{YouCeLan_list}}" wx:key="id">
+				<block wx:for="{{item}}" wx:key="id" wx:for-item="item2" wx:for-index="index2">
+					<view class="cart_cells" wx:if="{{item2.quantity > 0}}">
+						<view class="cells_name" data-index="{{index2}}">{{item2.productName}}</view>
+						<view class="cells_price" data-index="{{index2}}">{{item2.productPrice}}</view>
+						<view class="price-box">
+							<!-- 减号 -->
+							<view class="iconfont icon-minus2 fontP" hidden="{{item2.quantity<=0}}" bindtap="minusCount" data-item="{{item2}}"
+							 data-index="{{index2}}"></view>
+							<!-- 数量 -->
+							<view class="value" data-id="{{item2.id}}" data-num="{{item2.quantity}}">{{item2.quantity}}</view>
+							<!-- 加号 -->
+							<view class="iconfont icon-plus1 fontP" data-index="{{index2}}" data-item="{{item2}}" bindtap="addCount"></view>
+						</view>
+						<icon class="shopcart_delete" type="clear" size="18" data-index="{{index2}}" data-id="{{item2.id}}" bindtap="deleteOne" />
 					</view>
-					<icon class="shopcart_delete" type="clear" size="18" data-index="{{index}}" data-id="{{item.id}}" bindtap="deleteOne" />
-				</view>
+				</block>
 			</block>
 		</scroll-view>
 	</view>
