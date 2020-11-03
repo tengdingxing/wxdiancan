@@ -41,16 +41,16 @@ Page({
 	onLoad: function(options) {
 		if (options.tableNum) {
 			tableNum = options.tableNum;
-			console.log("options",options)
+			console.log("options", options)
 		}
-		
+
 		// 加载异步方法
 		this.onLoadTongBu(options);
 		return;
 	},
-	
+
 	// onLoad异步执行同步方法
-	async onLoadTongBu(options){
+	async onLoadTongBu(options) {
 		// 获取购物车缓存数据
 		var arr = wx.getStorageSync('cart') || [];
 		// 左分类菜单
@@ -61,16 +61,16 @@ Page({
 		categories = []
 		// 获取右侧菜品列表数据
 		var resFood = []
-		try{
-			let ret = await GG.http_GetPOst("/categoryList",'POST');
+		try {
+			let ret = await GG.http_GetPOst("/categoryList", 'POST');
 			let dataList = ret.data.data;
 			this.setData({
 				menu_list: dataList
 			})
-			if(dataList[0].categoryId){
-				this.HuoQuCaiPin(0,dataList[0].categoryId)
+			if (dataList[0].categoryId) {
+				this.HuoQuCaiPin(0, dataList[0].categoryId)
 			}
-		}catch(e){
+		} catch (e) {
 			this.setData({
 				list: []
 			})
@@ -78,7 +78,7 @@ Page({
 				title: '数据为空',
 			})
 		}
-		
+
 		// 购物车总量、总价
 		var totalPrice = this.data.totalPrice
 		var totalNum = this.data.totalNum
@@ -98,7 +98,7 @@ Page({
 				totalNum += Number(arr[i].quantity);
 			}
 		}
-		
+
 		// 赋值数据
 		this.setData({
 			hasList: true,
@@ -107,7 +107,7 @@ Page({
 			totalPrice: totalPrice.toFixed(2),
 			totalNum: totalNum
 		})
-		
+
 		wx.getSystemInfo({
 			success: (res) => {
 				this.setData({
@@ -130,24 +130,24 @@ Page({
 	// 点击切换右侧数据
 	changeRightMenu: function(e) {
 		var categoryId = e.target.dataset.item.categoryId; // 获取点击项的id
-		var index= e.target.dataset.index;
-		
-		this.HuoQuCaiPin(index,categoryId)
+		var index = e.target.dataset.index;
+
+		this.HuoQuCaiPin(index, categoryId)
 	},
-	
+
 	// 获取菜品
-	HuoQuCaiPin:function(index,categoryId){
-		GG.http_GetPOst("/queryProductBycategory",'POST',{
-			categoryType:categoryId
-		}).then((ret)=>{
-			ret.data.data.map((mapi)=>{
-				mapi.quantity=0
+	HuoQuCaiPin: function(index, categoryId) {
+		GG.http_GetPOst("/queryProductBycategory", 'POST', {
+			categoryType: categoryId
+		}).then((ret) => {
+			ret.data.data.map((mapi) => {
+				mapi.quantity = 0
 			})
 			this.setData({
 				// 右侧菜单当前显示第curNav项
 				curNav: index,
-				categoryId:categoryId,
-				["YouCeLan_list."+categoryId]:ret.data.data
+				categoryId: categoryId,
+				["YouCeLan_list." + categoryId]: ret.data.data
 			})
 		})
 	},
@@ -170,10 +170,10 @@ Page({
 		// 	})
 		// 	return;
 		// }
-		
-		this.SetGouWuCheShuLiang(true,e)
+
+		this.SetGouWuCheShuLiang(0, e)
 		return
-		
+
 
 
 		var id = e.currentTarget.dataset.id;
@@ -225,34 +225,51 @@ Page({
 			}
 		}
 	},
-	
-	SetGouWuCheShuLiang:function(bool,e){
+
+	SetGouWuCheShuLiang: function(bool, e) {
 		// 改变购物车数量
 		
-		let YouCeLan_list=GG.deepClone(this.data.YouCeLan_list)//深度克隆防止下面改变data里面的值
+		let YouCeLan_list = GG.deepClone(this.data.YouCeLan_list) //深度克隆防止下面改变data里面的值
+		if (bool==3) {
+			// 清空处理
+			for (let key in YouCeLan_list) {
+				YouCeLan_list[key].map((mapi) => {
+					mapi.quantity=0
+				}
+			}
+			return
+		}
+		// 增减处理
 		for (let key in YouCeLan_list) {
-			YouCeLan_list[key].map((mapi)=>{
-				if (mapi.productId==e.currentTarget.dataset.item.productId) {
-					if (bool) {
-						mapi.quantity++
-					} else{
-						mapi.quantity--
+			YouCeLan_list[key].map((mapi) => {
+				if (mapi.productId == e.currentTarget.dataset.item.productId) {
+					switch (bool) {
+						case 0:
+							mapi.quantity++
+							break;
+						case 1:
+							mapi.quantity--
+							break;
+						case 2:
+							mapi.quantity=0
+							break;
+						default:
 					}
 				}
 			})
 		}
 		// 因为上面的克隆，map改变的是 克隆出来的let YouCeLan_list,不会直接改变data的YouCeLan_list,所以需要重新渲染到页面
 		this.setData({
-			YouCeLan_list:YouCeLan_list
+			YouCeLan_list: YouCeLan_list
 		})
 	},
-	
-	
+
+
 	// 购物车减少数量
 	minusCount: function(e) {
-		this.SetGouWuCheShuLiang(false,e)
+		this.SetGouWuCheShuLiang(1, e)
 		return
-		
+
 		var id = e.currentTarget.dataset.id;
 		var arr = wx.getStorageSync('cart') || [];
 		for (var i in this.data.foodList) {
@@ -310,6 +327,10 @@ Page({
 	},
 	// 清空购物车
 	cleanList: function(e) {
+		
+		this.SetGouWuCheShuLiang(3, e)
+		return
+
 		for (var i in this.data.foodList) {
 			this.data.foodList[i].quantity = 0;
 		}
@@ -330,6 +351,9 @@ Page({
 
 	//删除购物车单项
 	deleteOne: function(e) {
+		
+		this.SetGouWuCheShuLiang(2, e)
+		return
 		var id = e.currentTarget.dataset.id;
 		var index = e.currentTarget.dataset.index;
 		var arr = wx.getStorageSync('cart')

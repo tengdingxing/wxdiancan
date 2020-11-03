@@ -127,7 +127,7 @@
 							<!-- 加号 -->
 							<view class="iconfont icon-plus1 fontP" data-index="{{index2}}" data-item="{{item2}}" bindtap="addCount"></view>
 						</view>
-						<icon class="shopcart_delete" type="clear" size="18" data-index="{{index2}}" data-id="{{item2.id}}" bindtap="deleteOne" />
+						<icon class="shopcart_delete" type="clear" size="18" data-index="{{index2}}" data-item="{{item2}}" bindtap="deleteOne" />
 					</view>
 				</block>
 			</block>
