@@ -80,24 +80,24 @@ Page({
 		}
 
 		// 购物车总量、总价
-		var totalPrice = this.data.totalPrice
-		var totalNum = this.data.totalNum
-		console.log("存储购物车", arr)
-		// 进入页面后判断购物车是否有数据，如果有，将菜单与购物车quantity数据统一
-		if (arr.length > 0) {
-			for (var i in arr) {
-				for (var j in resFood) {
-					if (resFood[j].id == arr[i].id) {
-						resFood[j].quantity = arr[i].quantity;
-					}
-				}
-			}
-			// 进入页面计算购物车总价、总数
-			for (var i in arr) {
-				totalPrice += arr[i].price * arr[i].quantity;
-				totalNum += Number(arr[i].quantity);
-			}
-		}
+		// var totalPrice = this.data.totalPrice
+		// var totalNum = this.data.totalNum
+		// console.log("存储购物车", arr)
+		// // 进入页面后判断购物车是否有数据，如果有，将菜单与购物车quantity数据统一
+		// if (arr.length > 0) {
+		// 	for (var i in arr) {
+		// 		for (var j in resFood) {
+		// 			if (resFood[j].id == arr[i].id) {
+		// 				resFood[j].quantity = arr[i].quantity;
+		// 			}
+		// 		}
+		// 	}
+		// 	// 进入页面计算购物车总价、总数
+		// 	for (var i in arr) {
+		// 		totalPrice += arr[i].price * arr[i].quantity;
+		// 		totalNum += Number(arr[i].quantity);
+		// 	}
+		// }
 
 		// 赋值数据
 		this.setData({
@@ -228,13 +228,17 @@ Page({
 
 	SetGouWuCheShuLiang: function(bool, e) {
 		// 改变购物车数量
-		
+
+		if (bool == 3) {
+			tableNum = 0
+		}
+
 		let YouCeLan_list = GG.deepClone(this.data.YouCeLan_list) //深度克隆防止下面改变data里面的值
 		for (let key in YouCeLan_list) {
 			YouCeLan_list[key].map((mapi) => {
-				if ( bool==3) {
+				if (bool == 3) {
 					// 清空处理
-					mapi.quantity=0
+					mapi.quantity = 0
 					return
 				}
 				if (mapi.productId == e.currentTarget.dataset.item.productId) {
@@ -242,12 +246,18 @@ Page({
 					switch (bool) {
 						case 0:
 							mapi.quantity++
+							this.data.totalNum++
+							this.data.totalPrice+=mapi.productPrice
 							break;
 						case 1:
 							mapi.quantity--
+							this.data.totalNum--
+							this.data.totalPrice-=mapi.productPrice
 							break;
 						case 2:
-							mapi.quantity=0
+							mapi.quantity = 0
+							this.data.totalNum -= mapi.quantity
+							this.data.totalPrice-=mapi.productPrice*mapi.quantity
 							break;
 						default:
 					}
@@ -256,7 +266,9 @@ Page({
 		}
 		// 因为上面的克隆，map改变的是 克隆出来的let YouCeLan_list,不会直接改变data的YouCeLan_list,所以需要重新渲染到页面
 		this.setData({
-			YouCeLan_list: YouCeLan_list
+			YouCeLan_list: YouCeLan_list,
+			totalNum:this.data.totalNum,//因为上面只改变了值，没有渲染到页面，需要重新渲染
+			totalPrice:this.data.totalPrice
 		})
 	},
 
@@ -323,7 +335,7 @@ Page({
 	},
 	// 清空购物车
 	cleanList: function(e) {
-		
+
 		this.SetGouWuCheShuLiang(3, e)
 		return
 
@@ -347,7 +359,7 @@ Page({
 
 	//删除购物车单项
 	deleteOne: function(e) {
-		
+
 		this.SetGouWuCheShuLiang(2, e)
 		return
 		var id = e.currentTarget.dataset.id;
