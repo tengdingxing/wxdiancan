@@ -190,6 +190,7 @@ Page({
 			name: nickName,
 			phone: "15805849785",
 			address: tableNum,
+			remarks:remarks,
 			items: items
 		}, {
 			"Content-Type": "application/x-www-form-urlencoded"
