@@ -26,7 +26,7 @@ Page({
 			"money": 1000
 		}],
 		// 购物车数据
-		cartList: [],
+		YouCeLan_list: [],
 		totalPrice: 0,
 		totalNum: 0,
 		// 遮罩
@@ -34,19 +34,28 @@ Page({
 	},
 	// 生命周期函数--监听页面加载
 	onLoad: function(Options) {
-		var that = this;
-		let tableNum = Options.tableNum;
-		var arr = wx.getStorageSync('cart') || [];
-		for (var i in arr) {
-			this.data.totalPrice += arr[i].quantity * arr[i].price;
-			this.data.totalNum += arr[i].quantity
-		}
-		this.setData({
-			tableNum: tableNum,
-			cartList: arr,
-			totalPrice: this.data.totalPrice.toFixed(2),
-			totalNum: this.data.totalNum
+		// var that = this;
+		// let tableNum = Options.tableNum;
+		// var arr = wx.getStorageSync('cart') || [];
+		// for (var i in arr) {
+		// 	this.data.totalPrice += arr[i].quantity * arr[i].price;
+		// 	this.data.totalNum += arr[i].quantity
+		// }
+		const eventChannel = this.getOpenerEventChannel()
+		eventChannel.on('setConfirmOrder', (data) => {
+			console.log(data)
+			this.setData({
+				totalNum: data.totalNum,
+				YouCeLan_list: data.YouCeLan_list,
+				totalPrice: data.totalPrice
+			})
 		})
+		// this.setData({
+		// 	tableNum: Options.totalNum
+		// 	cartList: arr,
+		// 	totalPrice: Options.totalPrice,
+		// 	totalNum: this.data.totalNum
+		// })
 		// wx.getSystemInfo({
 		//   success: function (res) {
 		//     that.setData({
@@ -122,7 +131,7 @@ Page({
 	//提交订单
 	submitOrder: function(e) {
 		var that = this;
-		var tableNum = that.data.tableNum;
+		var tableNum = this.data.totalNum;
 
 		var arr = wx.getStorageSync('cart') || [];
 
@@ -151,17 +160,17 @@ Page({
 		console.log("用餐人数：" + peoples)
 		console.log("备注：" + remarks)
 		console.log("桌号" + tableNum)
-		
-		
-		GG.http_GetPOst("/buyer/order/create","POST",{
+
+
+		GG.http_GetPOst("/buyer/order/create", "POST", {
 			openid: app.globalData.openid,
 			name: app.globalData.userInfo.nickName,
 			phone: "15805849785",
 			address: tableNum,
 			items: goods_josn
-		},{
+		}, {
 			"Content-Type": "application/x-www-form-urlencoded"
-		}).then((ret)=>{
+		}).then((ret) => {
 			// 支付方式关闭动画
 			that.animation.translate(0, 285).step();
 			that.setData({
@@ -177,7 +186,7 @@ Page({
 			wx.switchTab({
 				url: '../me/me',
 			})
-		},(err)=>{
+		}, (err) => {
 			// 支付方式关闭动画
 			that.animation.translate(0, 285).step();
 			that.setData({

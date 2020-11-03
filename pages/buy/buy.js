@@ -247,17 +247,17 @@ Page({
 						case 0:
 							mapi.quantity++
 							this.data.totalNum++
-							this.data.totalPrice+=mapi.productPrice
+							this.data.totalPrice += mapi.productPrice
 							break;
 						case 1:
 							mapi.quantity--
 							this.data.totalNum--
-							this.data.totalPrice-=mapi.productPrice
+							this.data.totalPrice -= mapi.productPrice
 							break;
 						case 2:
 							mapi.quantity = 0
 							this.data.totalNum -= mapi.quantity
-							this.data.totalPrice-=mapi.productPrice*mapi.quantity
+							this.data.totalPrice -= mapi.productPrice * mapi.quantity
 							break;
 						default:
 					}
@@ -267,8 +267,8 @@ Page({
 		// 因为上面的克隆，map改变的是 克隆出来的let YouCeLan_list,不会直接改变data的YouCeLan_list,所以需要重新渲染到页面
 		this.setData({
 			YouCeLan_list: YouCeLan_list,
-			totalNum:this.data.totalNum,//因为上面只改变了值，没有渲染到页面，需要重新渲染
-			totalPrice:this.data.totalPrice
+			totalNum: this.data.totalNum, //因为上面只改变了值，没有渲染到页面，需要重新渲染
+			totalPrice: this.data.totalPrice
 		})
 	},
 
@@ -453,28 +453,14 @@ Page({
 	},
 	// 跳转确认订单页面
 	gotoOrder: function() {
-		if (!tableNum) {
-			wx.showModal({
-				title: '提示',
-				content: '请到首页扫码点餐',
-				showCancel: false, //去掉取消按钮
-				success: function(res) {
-					if (res.confirm) {
-						wx.switchTab({
-							url: '../index/index',
-						})
-					}
-				}
-			})
-			return;
-		}
 		//购物车为空
-		var arr = wx.getStorageSync('cart') || [];
-		console.log("arr", arr)
-		if (!arr || arr.length == 0) {
+		// var arr = wx.getStorageSync('cart') || [];
+		// console.log("arr", arr)
+		if (!this.data.totalNum) {
 			wx.showModal({
 				title: '提示',
-				content: '请选择菜品'
+				content: '请选择菜品',
+				showCancel: false
 			})
 			return;
 		}
@@ -496,7 +482,16 @@ Page({
 		// 	return;
 		// }
 		wx.navigateTo({
-			url: '../confirmOrder/confirmOrder?tableNum=' + tableNum
+			url: '../confirmOrder/confirmOrder',
+			events: {},
+			success: (res) => {
+				// 通过eventChannel向被打开页面传送数据
+				res.eventChannel.emit('setConfirmOrder', {
+					totalNum: this.data.totalNum,
+					totalPrice: this.data.totalPrice,
+					YouCeLan_list: this.data.YouCeLan_list
+				})
+			}
 		})
 	},
 	GetQueryString: function(name) {
