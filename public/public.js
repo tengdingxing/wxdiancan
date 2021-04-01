@@ -95,7 +95,7 @@ const http_GetPOst = (url, method = 'GET', param = {}, header = {}, showLoading 
 	// 默认配置
 	const config = {
 		// 请求的本域名
-		baseUrl: 'http://39.98.124.206:80/diancan',
+		baseUrl: 'https://www.lssell.cn/tt2/diancan',
 		// 设置为json，返回后会对数据进行一次JSON.parse()
 		dataType: 'json',
 		// 是否显示请求中的loading
@@ -108,7 +108,7 @@ const http_GetPOst = (url, method = 'GET', param = {}, header = {}, showLoading 
 		loadingMask: true,
 		// 配置请求头信息
 		header: {
-			'content-type': 'application/json;charset=UTF-8',
+			GGM : '',
 		},
 	}
 
@@ -137,7 +137,7 @@ const http_GetPOst = (url, method = 'GET', param = {}, header = {}, showLoading 
 				console.log("存储本地cookie错误:" + e);
 			}
 			
-
+			return res;
 			// 判断是否正常请求到
 			if (res.data.status == 200) return res;
 			switch (parseInt(res.data.status)) {
@@ -153,9 +153,9 @@ const http_GetPOst = (url, method = 'GET', param = {}, header = {}, showLoading 
 					break;
 				default:
 					try{
-						tk_ts_showToast(res.data.msg ? res.data.msg : '操作出错!', 'none', 1000)
+						//tk_ts_showToast(res.data.msg ? res.data.msg : '操作出错!', 'none', 1000)
 					}catch(e){
-						tk_ts_showToast('操作出错!', 'none', 1000)
+						//tk_ts_showToast('操作出错!', 'none', 1000)
 					}
 					return false;
 			}
@@ -230,6 +230,26 @@ const http_GetPOst = (url, method = 'GET', param = {}, header = {}, showLoading 
 		})
 	})
 }
+const loadFiles = (fileName) => { //加载本地文件存储数据
+  return new Promise((resolve, reject) => {
+    const FileSystemManager = wx.getFileSystemManager()
+    FileSystemManager.readFile({ //读文件
+      filePath: wx.env.USER_DATA_PATH + "/" + fileName,
+      encoding: 'utf8',
+      success(res) {
+        if (res.data) {
+          // let obj = JSON.parse(res.data);
+		  let obj = res.data;
+          resolve(obj)
+        }
+      },
+      fail(err) {
+        console.log('读取失败', err)
+        reject(err)
+      }
+    })
+  })
+}
 const app = getApp()
 module.exports = {
 	tk_ts_showModal: tk_ts_showModal,
@@ -239,4 +259,6 @@ module.exports = {
 	isArray: isArray,
 	deepClone: deepClone,
 	http_GetPOst: http_GetPOst,
+	loadFiles:loadFiles
 };
+

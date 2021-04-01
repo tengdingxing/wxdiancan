@@ -1,5 +1,8 @@
 @import '../../wxss/weui.wxss';
 @import '../../wxss/common.wxss';
+/* 公共 */
+@import "/colorui/main.wxss";
+@import "/colorui/icon.wxss";
 /**app.wxss**/
 .container {
   height: 100%;
@@ -10,14 +13,27 @@
   padding: 200rpx 0;
   box-sizing: border-box;
 } 
+
+.payBtn {
+  width: 60%;
+  margin: auto;
+  margin-top: 15rpx;
+  color: #fff;
+  background: #13e200c7;
+}
+.payBtn::after {
+  border: none;
+}
+
 .bc_green{
-  background-color: #ff9600;
+  background-color: #ff0037;
 }
 .bc_white{
    background-color: #ffffff;
 }
 .new_padd{
-  padding: 15rpx 30rpx;
+  padding: 0 30rpx;
+  border-bottom: 1rpx solid #e5e5e5;
 }
 .color_white{
   color: #fff;
@@ -25,18 +41,41 @@
 .bg_white{
   color:#ffffff;
 }
+.weui-media-box__thumb {
+  font-size: 34rpx;
+}
 
+.ch_box {
+  margin-left: 10rpx;
+}
 
-
+.tableNumber {
+  margin: 0;
+  width: 160rpx;
+  height: 120rpx;
+  line-height: 120rpx;
+}
 
 /* 页面样式 */
  .cont_box {
   width: 100%;
   height: 100%;
   background-color: #fff;
-  padding-bottom: 120rpx;
-  padding-top: 140rpx;
-} 
+  /* padding-bottom: 120rpx; */
+  padding-top: 110rpx;
+}
+.numBox {
+  display: flex;
+}
+.oquns {
+  padding: 0 20rpx;
+  line-height: 44rpx;
+}
+.pricess {
+  width: 50rpx;
+  padding-left: 20rpx;
+  text-align: left;
+}
 /*订单最外层包裹  */
 .weui-panel_box {
   margin-top: 10rpx;
@@ -54,17 +93,24 @@
 .weui_titleBox::after {
   border-bottom: none;
 }
+.weui-media-box__bd {
+  margin-left: 115rpx;
+}
 /*订单盒子  */
 .weui_orderBox {
   height: 100rpx;
   /* line-height: 100rpx; */
   padding: 0 30rpx;
-  vertical-align: sub;
+  /* vertical-align: sub; */
   border-bottom: 1px solid #e5e5e5;
 }
 /*去掉默认的bordr-bottom */
 .weui_orderBox::before {
   border-top: none;
+}
+.weui-cell__ft {
+  display: inline-flex;
+  color: #ff0037;
 }
 /*合计  */
 .order_sum {
@@ -81,7 +127,7 @@
 }
 /*总钱数颜色  */
 .order_sumMoney {
-  color: #ff9600;
+  color: #ff0037;
 }
 /*价格，份数  */
 .order_price {
@@ -100,8 +146,8 @@
   border-bottom: 1px #d9d9d9 solid;
   font-size: 28rpx;
   padding: 0 30rpx;
-  height: 100rpx;
-  line-height: 100rpx;
+  height: 90rpx;
+  line-height: 90rpx;
 }
 
 ::-webkit-input-placeholder {
@@ -133,8 +179,8 @@
   border-bottom: 1px #d9d9d9 solid;
   font-size: 28rpx;
   padding: 0 30rpx;
-  height: 100rpx;
-  line-height: 100rpx;
+  height: 90rpx;
+  line-height: 90rpx;
 }
 /*选择支付方式  */
 .pay_way {
@@ -180,29 +226,26 @@
   background: #fff;
   border-bottom: 1px #d9d9d9 solid;
 }
-/*当前余额、充值  */
+/*当前余额、充值
 .yue_placeholder {
   height: 60rpx;
   line-height: 60rpx;
   text-align: center;
-}
-/*当前余额  */
+}当前余额  
 .yue_placeholderL {
   color: #ff9600;
 }
-/*充值  */
+充值
 .yue_placeholderR {
   border-left: 1px #d9d9d9 solid;
   color: blue;
 }
-
+*/
 /*提交订单按钮 */
 .footer_box {
   width: 100%;
-  height: 100rpx;
-  position: fixed;
-  left: 0;
-  bottom: 0rpx;
+  height: 150rpx;
+  padding-top: 150rpx;
   z-index: 100;
   background-color: #fff;
 }
@@ -250,13 +293,13 @@
   height: 70rpx;
   line-height: 80rpx;
   text-align: center;
-  position: fixed;
-  left: 0;
-  background-color: #ff9600;
+  /* position: fixed;
+  left: 0; */
+  background-color: #ff0037;
   color: #fff;
 }
 
-/*返回按钮  */
+/*返回按钮
 .shopcart_close {
   position: absolute;
   right: 30rpx;
@@ -265,9 +308,7 @@
 .margin_r {
   margin-right: 30rpx;
 }
-
-/*购物车列表  */
-
+购物车列表
 .cart_cells {
   width: 100%;
   height: 98rpx;
@@ -276,19 +317,15 @@
 }
 
 .cells_name {
-padding-left: 20rpx;
+  padding-left: 20rpx;
   width: 50%;
-  position: absolute;
-  left:0;
-  top: 20rpx;
+  float: left;
+  line-height: 98rpx;
+  font-size: 36rpx;
 }
 
 .price-box {
   width: 40%;
-  font-size: 32rpx;
-  position: absolute;
-  left: 60%;
-  top: 20rpx;
-  color: #01bf05;
+  float: right;
 }
-
+*/

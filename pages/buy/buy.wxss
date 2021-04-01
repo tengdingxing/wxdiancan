@@ -1,5 +1,6 @@
 @import '../../wxss/weui.wxss';
 @import '../../wxss/common.wxss';
+
 /**app.wxss**/
 .container {
   height: 100%;
@@ -9,21 +10,30 @@
   justify-content: space-between;
   padding: 200rpx 0;
   box-sizing: border-box;
-} 
-.bc_green{
-  background-color: #ff9600;
 }
-.bc_white{
-   background-color: #ffffff;
+
+.weui-media-box__title {
+  margin-left: 85rpx;
 }
-.new_padd{
+
+.bc_green {
+  background-color: #ff0037;
+}
+
+.bc_white {
+  background-color: #ffffff;
+}
+
+.new_padd {
   padding: 15rpx 30rpx;
 }
-.color_white{
+
+.color_white {
   color: #fff;
 }
-.bg_white{
-  color:#ffffff;
+
+.bg_white {
+  color: #ffffff;
 }
 
 
@@ -34,11 +44,16 @@
 }
 
 .mT {
-  padding: 10rpx 0rpx;
+  height: 200rpx;
+  padding-top: 10rpx;
 }
 
 .bd_radius {
   border-radius: 50%;
+}
+
+.weui-media-box__thumb {
+  font-size: 36rpx;
 }
 
 /*tab  */
@@ -46,6 +61,7 @@
 .weui-navbar__item.weui-bar__item_on {
   color: #000;
 }
+
 .tab_style {
   position: fixed;
   top: 148rpx;
@@ -180,7 +196,8 @@
 .cai_price {
   font-weight: bold;
   font-size: 32rpx;
-  color: #ff9600;
+  line-height: 110rpx;
+  color: #ff0037;
 }
 
 /*人民币符号*/
@@ -201,6 +218,12 @@
   padding-right: 10rpx;
 }
 
+.stepper_sq text {
+  color: #ff0000;
+  line-height: 110rpx;
+  margin-right: 10rpx;
+}
+
 .value_num {
   width: 50rpx;
   text-align: center;
@@ -210,6 +233,7 @@
 
 .value {
   font-size: 28rpx;
+  line-height: 110rpx;
   margin: 0 20rpx;
   font-weight: bold;
 }
@@ -221,15 +245,14 @@
   height: 80rpx;
   position: fixed;
   left: 0;
-  bottom: 0px;
+  bottom: 0;
   z-index: 100;
-  background-color: #fef4d1;
+  background-color: #ffbb001f;
 }
 
 .shop_cartBox {
   width: 110rpx;
   height: 110rpx;
-  background-color: #ff9600;
   border-radius: 50%;
   position: absolute;
   top: -50rpx;
@@ -245,14 +268,11 @@
 }
 
 .all_money {
-  position: absolute;
-  width: 50%;
   height: 80rpx;
-  top: 0;
-  left: 25%;
   line-height: 80rpx;
   text-align: center;
   font-size: 32rpx;
+  margin: 0 155rpx;
 }
 
 .choose_ok {
@@ -268,8 +288,9 @@
 }
 
 .fontP {
-  color: #ff9600;
+  color: #ff0037;
   font-size: 40rpx;
+  line-height: 110rpx;
 }
 
 /*弹窗遮罩层  */
@@ -280,21 +301,21 @@
   left: 0;
   width: 100%;
   height: 100%;
-  opacity:0.6;
+  opacity: 0.6;
   background: #000;
-   z-index: 666; 
+  z-index: 666;
 }
 
 /*购物车弹窗  */
 
 .cart_popup {
   width: 100%;
-  height: 285px;
+  height: 570rpx;
   background: #fff;
   position: fixed;
   z-index: 999;
   left: 0;
-  bottom: -285px;
+  bottom: -570rpx;
   overflow: auto;
 }
 
@@ -303,9 +324,10 @@
   height: 70rpx;
   line-height: 80rpx;
   text-align: center;
-  position: fixed;
+  position: absolute;
+  top: 0;
   left: 0;
-  background-color: #ff9600;
+  background-color: #ff0037;
   color: #fff;
 }
 
@@ -333,51 +355,34 @@
 
 .cart_cells {
   width: 100%;
-  height: 98rpx;
-  position: relative;
+  display: inline-flex;
+  float: left;
+  height: 110rpx;
   border-bottom: 1px #dedede solid;
 }
 
 .cells_name {
-  width: 40%;
-  height: 50%;
-  position: absolute;
-  top: 0;
-  left: 0;
+  margin: 10rpx 40rpx;
   font-size: 14px;
-  margin-left: 40rpx;
-  padding-top: 10rpx;
 }
 
 .cells_price {
-  width: 60%;
-  height: 50%;
-  position: absolute;
-  top: 50rpx;
-  left: 0;
-  margin-left: 40rpx;
   font-size: 14px;
-  padding-bottom: 10rpx;
-  color: #ff9600;
+  margin: 0 40rpx;
+  color: #ff0037;
+}
+
+.namePrice {
+  width: 80%;
 }
 
 .price-box {
-  padding-right: 20rpx;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   width: 20%;
-  position: absolute;
-  left: 60%;
-  top: 20rpx;
-}
-
-/*删除购物车某项  */
-
-.shopcart_delete {
-  position: absolute;
-  right: 40rpx;
-  top: 32rpx;
+  float: right;
+  margin: 0 40rpx;
 }
 
 /*我的订单  */
@@ -468,18 +473,20 @@
   height: 10rpx;
   background: #ddd;
 }
+
 /*判断是否登录  */
-.maskOne{
+.maskOne {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  opacity:0.7;
+  opacity: 0.7;
   background: #000;
-   z-index: 555; 
+  z-index: 555;
 }
-.w_isLoginBox{
+
+.w_isLoginBox {
   position: absolute;
   z-index: 888;
   width: 76%;
@@ -488,36 +495,200 @@
   top: 30%;
   background: #fff;
   border-radius: 20rpx;
-  }
-  /*标题  */
-.modal_title{
+}
+
+/*标题  */
+.modal_title {
   width: 100%;
   line-height: 50px;
   text-align: center;
 }
-.w_isLogin{
-   width: 94%; 
-   margin:0  auto;
+
+.w_isLogin {
+  width: 94%;
+  margin: 0 auto;
 }
-.w_input{
+
+.w_input {
   border: 1px #ddd solid;
-  padding:0 0 0 10rpx;
+  padding: 0 0 0 10rpx;
 
 }
-.w_inputCode{
+
+.w_inputCode {
   border-top: 0;
 }
-.weui-cell::before{
+
+.weui-cell::before {
   border-top: none;
 }
-.getcode-btn{
+
+.getcode-btn {
   padding: 0 5px;
   background-color: #3cc51f;
   color: #fff;
 }
+
 /* 提交按钮 */
-.submitBtn{
+.submitBtn {
   width: 50%;
   height: 40px;
-  margin-top:10px;
+  margin-top: 10px;
+}
+
+/* 加料弹窗 */
+.toggleAdd {
+  width: 100%;
+  height: 660rpx;
+  background-color: #fff;
+  position: fixed;
+  z-index: 9999;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.add_title {
+  width: 100%;
+  height: 70rpx;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  background-color: #ff0037;
+  color: #fff;
+}
+
+.pepper {
+  width: 100%;
+  /* border-bottom: 1rpx solid #ccc; */
+}
+
+.pepper_title {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 10rpx;
+  border-bottom: 2rpx solid #eee;
+}
+.pepper_title text {
+  line-height: 50rpx;
+}
+
+.pepper_span {
+  width: 100%;
+  margin-top: 10rpx;
+}
+
+.pepper_span span {
+  border: 1rpx solid #eee;
+  padding: 10rpx;
+  line-height: 100rpx;
+  margin-left: 10rpx;
+  border-radius: 15rpx;
+}
+
+.garnishFood {
+  width: 100%;
+  text-align: center;
+}
+.garnishFood_title {
+  width: 100%;
+  margin-bottom: 10rpx;
+  border-bottom: 1rpx solid #eee;
+}
+.garnishFood_title text {
+  line-height: 50rpx;
+}
+
+.garnishFood_span {
+  width: 95%;
+  margin: auto;
+  margin-top: 10rpx;
+}
+.garnishFood_span span {
+  border: 1rpx solid #eee;
+  padding: 10rpx;
+  line-height: 100rpx;
+  margin: 0 25rpx;
+  border-radius: 15rpx;
+}
+/* 被选中 */
+.check_ture {
+  background-color: #ff0037;
+  color: #fff;
+  border: 1rpx solid #ff0037;
+}
+.check_false {
+  background: none;
+  color: #000;
+  border: 1rpx solid #eee;
+}
+.sweetNess {
+  width: 100%;
+}
+.sweetNess_title {
+  margin-left: 30rpx;
+  width: 100%;
+  line-height: 60rpx;
+}
+.Sweetness {
+  width: 150rpx;
+  text-align: center;
+  padding: 5rpx 0;
+  border-radius: 15rpx;
+  margin: 15rpx;
+  float: left;
+}
+.tempera {
+  width: 100%;
+  float: left;
+  margin-left: 30rpx;
+}
+.tempera_i {
+  width: 150rpx;
+  text-align: center;
+  padding: 5rpx 0;
+  border-radius: 15rpx;
+  margin: 15rpx;
+  float: left;
+}
+/* 配菜按钮 */
+.trueBtn {
+  padding: 15rpx 0;
+  /* display: flex; */
+  border-top: 1rpx solid #eee;
+  border-bottom: 1rpx solid #eee;
+  background: none;
+}
+.foodBtn::after {
+  border: none;
+}
+.replaceBtn::after {
+  border: none;
+}
+.foodBtn {
+  width: 35%;
+  height: 90rpx;
+  line-height: 90rpx;
+  background-color: #ff0037;
+  color: #fff;
+  padding-left: 0;
+  padding-right: 0;
+}
+/* 重置 */
+.replaceBtn {
+  width: 35%;
+  height: 90rpx;
+  line-height: 90rpx;
+  background-color: #eee;
+  padding-left: 0;
+  padding-right: 0;
+}
+.add_Expect {
+  padding-left: 45%;
+  line-height: 70rpx;
+}
+
+.close_Add {
+  padding-left: 35%;
+  line-height: 70rpx;
 }

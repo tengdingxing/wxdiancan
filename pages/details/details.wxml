@@ -1,0 +1,19 @@
+<!--pages/details/details.wxml-->
+<view>
+	<!-- 外层 -->
+	<view wx:if="{{goodsDetails.length>0}}">
+		<view class="big" wx:for="{{goodsDetails}}" wx:key="index">
+			<view class="name">菜品名称:{{item.productName}} </view>
+			<view class="price">菜品价格:￥{{item.productPrice}} </view>
+		</view>
+		<view class="times">
+			下单时间
+			<view class="time">
+					<label>
+						<text>{{orderTime}}</text>
+					</label>
+			</view>
+		</view>
+	</view>
+	<view wx:else class="none">{{none}}</view>
+</view>

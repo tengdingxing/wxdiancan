@@ -1,16 +1,16 @@
 <!--logs.wxml-->
 <view class="page">
-	<!-- 顶部店家logo -->
+	<!-- 顶部店家名称、所在桌号 -->
 	<view class="weui-panel__bd posi_fiexd">
-		<navigator url="" class="weui-media-box weui-media-box_appmsg new_padd  bc_green" hover-class="none">
-			<view class="weui-media-box__hd weui-media-box__hd_in-appmsg" style="width:120rpx;height:120rpx">
-				<image class="weui-media-box__thumb bd_radius" src="../../image/logo60.png" />
+		<view class="weui-media-box weui-media-box_appmsg new_padd  bc_green">
+			<view class="weui-media-box__hd weui-media-box__hd_in-appmsg" style="width:160rpx;height:120rpx">
+				<view class="weui-media-box__thumb color_white bd_radius">桌号:{{number}}</view>
 			</view>
 			<view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-				<view class="weui-media-box__title  color_white">XX美食</view>
-				<view class="weui-media-box__desc color_white">点餐小程序</view>
+				<view class="weui-media-box__title  color_white">{{storeName}}</view>
+				<!-- <view class="weui-media-box__desc color_white">点餐小程序</view> -->
 			</view>
-		</navigator>
+		</view>
 	</view>
 	<!--tab  -->
 	<view class="weui-tab">
@@ -20,7 +20,7 @@
 					<view class="weui-navbar__title">{{item}}</view>
 				</view>
 			</block>
-			<view class="weui-navbar__slider slider_width" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
+			<!-- <view class="weui-navbar__slider slider_width" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view> -->
 		</view>
 		<view class="weui-tab__panel">
 			<!--今日菜单  -->
@@ -34,21 +34,19 @@
 				<!--右侧栏  -->
 				<scroll-view scroll-y class="right-cont">
 					<block wx:for="{{YouCeLan_list[categoryId]}}" wx:key="id">
-						<view class="weui-panel__bd mb_bottom">
+						<view class="weui-panel__bd mb_bottom" bindtap="toggleAdd">
 							<view class=" weui-media-box_appmsg bc_white mT" hover-class="none">
 								<view class="weui-media-box__hd  img_box ">
-									<!--图片链接  -->
-
-									<!-- <image class="weui-media-box__thumb"  src=""/>     -->
-									<image class="weui-media-box__thumb img_box" src="http://localhost/{{item.productIcon}}" />
+									<!-- 图片链接 -->
+									<image class="weui-media-box__thumb img_box" src="https://www.lssell.cn/tt2/diancan/img/{{item.productIcon}}" />
 								</view>
 								<view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
 									<view class="cai_title" data-index="{{index}}">{{item.productName}}</view>
 									<view class="cai_desc">{{item.productDescription?item.productDescription:'暂无介绍'}}</view>
-									<view class="cai_desc"> 库存：{{item.productStock}} </view>
+									<!-- <view class="cai_desc"> 库存：{{item.productStock}} </view> -->
 									<view class="price-stepper">
 										<view class="cai_price" data-index="{{index}}">{{item.productPrice}}</view>
-										<view class="stepper">
+										<view wx:if = "{{item.productStatus != 1}}" class="stepper">
 											<!-- 减号 -->
 											<view class="iconfont icon-minus2 fontP" hidden="{{item.quantity<=0}}" bindtap="minusCount" data-item="{{item}}"
 											 data-index="{{index}}"></view>
@@ -57,6 +55,7 @@
 											<!-- 加号 -->
 											<view class="iconfont icon-plus1 fontP" data-index="{{index}}" data-item="{{item}}" bindtap="addCount"></view>
 										</view>
+										<view wx:else class="stepper_sq"><text>已售罄</text></view>
 									</view>
 								</view>
 							</view>
@@ -65,14 +64,91 @@
 				</scroll-view>
 				<!--底部  -->
 				<view class="bottom_box">
-					<view class="shop_cartBox" bindtap="cascadeToggle">
+					<view class="shop_cartBox bc_green" bindtap="cascadeToggle">
 						<image class="shopCart_img" src="../../image/shopCart.png"></image>
 					</view>
 					<view class="all_money">总计：{{totalPrice}}元，{{totalNum}}件</view>
 					<view class="choose_ok  bc_green" bindtap="gotoOrder">选好了</view>
 				</view>
 			</view>
-			<!--我的订单  -->
+		</view>
+	</view>
+	<!--购物车弹窗  -->
+	<view hidden="{{maskFlag}}" class="modal-mask" bindtap="cascadeToggle"></view>
+	<view animation="{{animationData}}" class="cart_popup">
+		<view class="shopcart_title">
+			<span class="shopcart_close" bindtap="cascadeToggle">返回</span>购物车
+			<span class="shopcart_deleteAll" bindtap="cleanList">清空购物车</span>
+		</view>
+		<scroll-view scroll-y style="height:500rpx;margin:70rpx 0 0 0">
+			<block wx:for="{{YouCeLan_list}}" wx:key="id">
+				<block wx:for="{{item}}" wx:key="id" wx:for-item="item2" wx:for-index="index2">
+					<view class="cart_cells" wx:if="{{item2.quantity > 0}}">
+						<view class="namePrice">
+							<view class="cells_name" data-index="{{index2}}">{{item2.productName}}</view>
+							<view class="cells_price" data-index="{{index2}}">￥{{item2.productPrice}}</view>
+						</view>
+						<view class="price-box">
+							<!-- 减号 -->
+							<view class="iconfont icon-minus2 fontP" hidden="{{item2.quantity<=0}}" bindtap="minusCount" data-item="{{item2}}"
+							 data-index="{{index2}}"></view>
+							<!-- 数量 -->
+							<view class="value" data-id="{{item2.id}}" data-num="{{item2.quantity}}">{{item2.quantity}}</view>
+							<!-- 加号 -->
+							<view class="iconfont icon-plus1 fontP" data-index="{{index2}}" data-item="{{item2}}" bindtap="addCount"></view>
+						</view>
+						<!-- <icon class="shopcart_delete" type="clear" size="18" data-index="{{index2}}" data-item="{{item2}}" bindtap="deleteOne" /> -->
+					</view>
+				</block>
+			</block>
+		</scroll-view>
+	</view>
+	<!-- 加菜弹窗 -->
+	<!-- <view hidden="{{toglAdd}}" class="toggleAdd">
+		<view class="add_title">
+			<view class="add_Expect">
+				<text>加料</text>
+			</view>
+			<view class="close_Add" bindtap="shutAdd">
+				<text>关闭</text>
+			</view>
+		</view>
+		<scroll-view scroll-y style="height:470rpx;margin:70rpx 0 0 0">
+			<view class="pepper">
+				<view class="pepper_title"><text>选择口味</text></view>
+				<view class="pepper_span">
+					<view class="sweetNess">
+						<view class="sweetNess_title"><text>甜度:</text></view>
+						<view style="width: 75%; margin: auto;">
+							<view wx:for="{{addList}}" wx:key="list" class="Sweetness {{checkIndex == item.index ? 'check_ture':'check_false'}}" data-value="{{item.name}}" data-index="{{item.index}}" bindtap="checkedFood">{{item.name}}</view>
+						</view>
+					</view>
+					<view class="tempera">
+						<view><text>温度:</text></view>
+						<view style="display: flex; margin: auto; width: 83%;">
+							<view wx:for="{{temperaList}}" wx:key="index" class="tempera_i {{checkInd == item.ind ? 'check_ture':'check_false'}}" data-val="{{item.name}}" data-ind="{{item.ind}}" bindtap="inTempera">{{item.name}}</view>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="garnishFood">
+				<view class="garnishFood_title"><text>添加小料</text></view>
+				<view class="garnishFood_span">
+					<span wx:for="{{addList}}" wx:key="index" class="{{_inx == item.proType ? 'check_ture':'check_false'}}" data-values="{{item.proTypeName}}" data-prices="{{item.proTypePrice}}" data-inx="{{item.proType}}" bindtap="foodsChe">{{item.proTypeName}}</span>
+				</view>
+			</view>
+		</scroll-view>
+		<view class="trueBtn">
+			<view style="line-height: 135rpx; display: flex;">
+				<button class="replaceBtn" bindtap="Replace" >重置</button>
+				<button class="foodBtn" bindtap="foodBtn" >确认</button>
+			</view>
+		</view>
+	</view> -->
+</view>
+
+<!-- 废弃 -->
+<!--我的订单  -->
 			<!-- <view class="weui-tab__content .my_menu" hidden="{{activeIndex != 1}}">
 				<scroll-view scroll-y class="order_list">
 					<block wx:for="{{orderList}}" wx:key="">
@@ -103,36 +179,6 @@
 					</block>
 				</scroll-view>
 			</view> -->
-		</view>
-	</view>
-	<!--购物车弹窗  -->
-	<view hidden="{{maskFlag}}" class="modal-mask" bindtap="cascadeToggle"></view>
-	<view animation="{{animationData}}" class="cart_popup">
-		<view class="shopcart_title">
-			<span class="shopcart_close" bindtap="cascadeToggle">返回</span>购物车
-			<span class="shopcart_deleteAll" bindtap="cleanList">清空购物车</span>
-		</view>
-		<scroll-view scroll-y style="height:250px;margin-top:35px">
-			<block wx:for="{{YouCeLan_list}}" wx:key="id">
-				<block wx:for="{{item}}" wx:key="id" wx:for-item="item2" wx:for-index="index2">
-					<view class="cart_cells" wx:if="{{item2.quantity > 0}}">
-						<view class="cells_name" data-index="{{index2}}">{{item2.productName}}</view>
-						<view class="cells_price" data-index="{{index2}}">{{item2.productPrice}}</view>
-						<view class="price-box">
-							<!-- 减号 -->
-							<view class="iconfont icon-minus2 fontP" hidden="{{item2.quantity<=0}}" bindtap="minusCount" data-item="{{item2}}"
-							 data-index="{{index2}}"></view>
-							<!-- 数量 -->
-							<view class="value" data-id="{{item2.id}}" data-num="{{item2.quantity}}">{{item2.quantity}}</view>
-							<!-- 加号 -->
-							<view class="iconfont icon-plus1 fontP" data-index="{{index2}}" data-item="{{item2}}" bindtap="addCount"></view>
-						</view>
-						<icon class="shopcart_delete" type="clear" size="18" data-index="{{index2}}" data-item="{{item2}}" bindtap="deleteOne" />
-					</view>
-				</block>
-			</block>
-		</scroll-view>
-	</view>
 	<!--未登录时显示获取手机验证码的弹窗  -->
 	<!-- <view hidden="{{loginFlag}}" class="maskOne"></view> -->
 	<!-- <view  hidden="{{loginFlag}}" class="w_isLoginBox">
@@ -157,5 +203,3 @@
         </view> 
          <button class="submitBtn" type="primary" size="20" bindtap="goSubmit">提交 </button>
 </view> -->
-
-</view>

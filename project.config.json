@@ -28,16 +28,18 @@
       "disablePlugins": [],
       "outputPath": ""
     },
+    "enableEngineNative": false,
     "useIsolateContext": true,
     "useCompilerModule": true,
     "userConfirmedUseCompilerModuleSwitch": false,
     "packNpmManually": false,
-    "packNpmRelationList": []
+    "packNpmRelationList": [],
+    "minifyWXSS": true
   },
   "compileType": "miniprogram",
   "libVersion": "2.13.2",
   "cloudfunctionRoot": "functions/",
-  "appid": "wxe5df2843a3b47e70",
+  "appid": "wx66045ae0272bfb91",
   "projectname": "%E7%82%B9%E9%A4%90%E5%B0%8F%E7%A8%8B%E5%BA%8F",
   "debugOptions": {
     "hidedInDevtools": []
@@ -47,23 +49,22 @@
   "simulatorPluginLibVersion": {},
   "condition": {
     "search": {
-      "current": -1,
       "list": []
     },
     "conversation": {
-      "current": -1,
       "list": []
     },
     "plugin": {
-      "current": -1,
       "list": []
     },
     "game": {
       "currentL": -1,
       "list": []
     },
+    "gamePlugin": {
+      "list": []
+    },
     "miniprogram": {
-      "current": 5,
       "list": [
         {
           "id": 1,
@@ -74,24 +75,10 @@
         },
         {
           "id": 1,
-          "name": "首页",
-          "pathName": "pages/index/index",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": 3,
-          "name": "我的评价",
-          "pathName": "pages/mycomment/mycomment",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": -1,
           "name": "下单",
           "pathName": "pages/buy/buy",
           "query": "",
-          "scene": null
+          "scene": 1047
         },
         {
           "id": -1,
@@ -101,9 +88,16 @@
           "scene": null
         },
         {
+          "id": 6,
+          "name": "订单详情",
+          "pathName": "pages/details/details",
+          "query": "",
+          "scene": null
+        },
+        {
           "id": -1,
-          "name": "修改",
-          "pathName": "pages/change/change",
+          "name": "pages/ShouHuoDiZhi/ShouHuoDiZhi",
+          "pathName": "pages/ShouHuoDiZhi/ShouHuoDiZhi",
           "scene": null
         }
       ]
